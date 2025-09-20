@@ -1,16 +1,13 @@
 # game.py
 # -------
-# Licensing Information:  You are free to use or extend these projects for
-# educational purposes provided that (1) you do not distribute or publish
-# solutions, (2) you retain this notice, and (3) you provide clear
-# attribution to UC Berkeley, including a link to http://ai.berkeley.edu.
+# 许可信息:你可以自由使用或扩展这些项目用于教育目的,前提是 
+# (1) 不分发或发布解决方案,
+# (2) 保留此声明,
+# (3) 对 UC Berkeley 提供明确归属,包括链接 http://ai.berkeley.edu.
 # 
-# Attribution Information: The Pacman AI projects were developed at UC Berkeley.
-# The core projects and autograders were primarily created by John DeNero
-# (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
-# Student side autograding was added by Brad Miller, Nick Hay, and
-# Pieter Abbeel (pabbeel@cs.berkeley.edu).
-
+# 归属信息:Pacman AI 项目由 UC Berkeley 开发.
+# 核心项目和自动评分器主要由 John DeNero (denero@cs.berkeley.edu) 和 Dan Klein (klein@cs.berkeley.edu) 创建.
+# 学生端自动评分由 Brad Miller、Nick Hay 和 Pieter Abbeel (pabbeel@cs.berkeley.edu) 添加.
 
 # game.py
 # -------
@@ -26,23 +23,23 @@ import traceback
 import sys
 
 #######################
-# Parts worth reading #
+# 值得阅读的部分        #
 #######################
 
 class Agent:
     """
-    An agent must define a getAction method, but may also define the
-    following methods which will be called if they exist:
+    一个 Agent 必须定义一个 getAction 方法,但也可以定义以下方法,
+    如果存在将会被调用:
 
-    def registerInitialState(self, state): # inspects the starting state
+    def registerInitialState(self, state): # 检查初始状态
     """
     def __init__(self, index=0):
         self.index = index
 
     def getAction(self, state):
         """
-        The Agent will receive a GameState (from either {pacman, capture, sonar}.py) and
-        must return an action from Directions.{North, South, East, West, Stop}
+        Agent 会接收一个 GameState（来自 {pacman, capture, sonar}.py）,
+        并必须返回 Directions.{North, South, East, West, Stop} 中的一个动作.
         """
         raiseNotDefined()
 
@@ -69,11 +66,10 @@ class Directions:
 
 class Configuration:
     """
-    A Configuration holds the (x,y) coordinate of a character, along with its
-    traveling direction.
+    Configuration 保存一个角色的 (x,y) 坐标及其移动方向.
 
-    The convention for positions, like a graph, is that (0,0) is the lower left corner, x increases
-    horizontally and y increases vertically.  Therefore, north is the direction of increasing y, or (0,1).
+    坐标约定类似图论中节点坐标:(0,0) 为左下角,x 水平方向增加,y 垂直方向增加.
+    因此,北方为 y 增加的方向,即 (0,1).
     """
 
     def __init__(self, pos, direction):
@@ -104,11 +100,10 @@ class Configuration:
 
     def generateSuccessor(self, vector):
         """
-        Generates a new configuration reached by translating the current
-        configuration by the action vector.  This is a low-level call and does
-        not attempt to respect the legality of the movement.
+        生成一个新的配置,通过将当前配置按动作向量平移得到.
+        这是一个低级调用,不会检查移动是否合法.
 
-        Actions are movement vectors.
+        动作是移动向量.
         """
         x, y= self.pos
         dx, dy = vector
@@ -119,9 +114,8 @@ class Configuration:
 
 class AgentState:
     """
-    AgentStates hold the state of an agent (configuration, speed, scared, etc).
+    AgentState 保存一个 agent 的状态,包括配置、速度、恐惧时间等信息.
     """
-
     def __init__( self, startConfiguration, isPacman ):
         self.start = startConfiguration
         self.configuration = startConfiguration
@@ -161,11 +155,10 @@ class AgentState:
 
 class Grid:
     """
-    A 2-dimensional array of objects backed by a list of lists.  Data is accessed
-    via grid[x][y] where (x,y) are positions on a Pacman map with x horizontal,
-    y vertical and the origin (0,0) in the bottom left corner.
+    一个二维对象数组,由列表的列表支持.数据通过 grid[x][y] 访问,
+    (x,y) 表示 Pacman 地图上的位置,x 水平,y 垂直,原点 (0,0) 在左下角.
 
-    The __str__ method constructs an output that is oriented like a pacman board.
+    __str__ 方法构造的输出类似 Pacman 游戏地图.
     """
     def __init__(self, width, height, initialValue=False, bitRepresentation=None):
         if initialValue not in [False, True]: raise Exception('Grids can only contain booleans')
@@ -228,10 +221,11 @@ class Grid:
 
     def packBits(self):
         """
-        Returns an efficient int list representation
+        返回高效的整数列表表示
 
-        (width, height, bitPackedInts...)
+        格式:(width, height, bitPackedInts...)
         """
+
         bits = [self.width, self.height]
         currentInt = 0
         for i in range(self.height * self.width):
@@ -252,7 +246,7 @@ class Grid:
 
     def _unpackBits(self, bits):
         """
-        Fills in data from a bit-level representation
+        从位级表示填充数据
         """
         cell = 0
         for packed in bits:
@@ -281,8 +275,9 @@ def reconstituteGrid(bitRep):
     return Grid(width, height, bitRepresentation= bitRep[2:])
 
 ####################################
-# Parts you shouldn't have to read #
+# 不必阅读的部分                    #
 ####################################
+
 
 class Actions:
     """
@@ -334,7 +329,7 @@ class Actions:
         x, y = config.pos
         x_int, y_int = int(x + 0.5), int(y + 0.5)
 
-        # In between grid points, all agents must continue straight
+      # 在网格点之间,所有智能体必须保持直线前进
         if (abs(x - x_int) + abs(y - y_int)  > Actions.TOLERANCE):
             return [config.getDirection()]
 
@@ -374,8 +369,9 @@ class GameStateData:
     """
     def __init__( self, prevState = None ):
         """
-        Generates a new data packet by copying information from its predecessor.
+        通过复制前一个状态的信息生成一个新的数据包.
         """
+
         if prevState != None:
             self.food = prevState.food.shallowCopy()
             self.capsules = prevState.capsules[:]
@@ -422,7 +418,7 @@ class GameStateData:
 
     def __hash__( self ):
         """
-        Allows states to be keys of dictionaries.
+        允许将状态作为字典的键使用.
         """
         for i, state in enumerate( self.agentStates ):
             try:
@@ -486,8 +482,9 @@ class GameStateData:
 
     def initialize( self, layout, numGhostAgents ):
         """
-        Creates an initial game state from a layout array (see layout.py).
+        根据布局数组（参见 layout.py）创建初始游戏状态.
         """
+
         self.food = layout.food.copy()
         #self.capsules = []
         self.capsules = layout.capsules[:]
@@ -512,7 +509,7 @@ except:
 
 class Game:
     """
-    The Game manages the control flow, soliciting actions from agents.
+    游戏管理控制流程,从智能体获取动作指令.
     """
 
     def __init__( self, agents, display, rules, startingIndex=0, muteAgents=False, catchExceptions=False ):
@@ -538,7 +535,7 @@ class Game:
             return self.rules.getProgress(self)
 
     def _agentCrash( self, agentIndex, quiet=False):
-        "Helper method for handling agent crashes"
+        "处理智能体崩溃的辅助方法"
         if not quiet: traceback.print_exc()
         self.gameOver = True
         self.agentCrashed = True

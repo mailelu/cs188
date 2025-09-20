@@ -1,71 +1,65 @@
 # search.py
 # ---------
-# Licensing Information:  You are free to use or extend these projects for
-# educational purposes provided that (1) you do not distribute or publish
-# solutions, (2) you retain this notice, and (3) you provide clear
-# attribution to UC Berkeley, including a link to http://ai.berkeley.edu.
+# 许可信息：您可以自由使用或扩展这些项目用于教育目的，前提是 (1) 不分发或发布解决方案，(2) 保留此声明，(3) 清楚地标明归属 UC Berkeley，包括链接 http://ai.berkeley.edu。
 # 
-# Attribution Information: The Pacman AI projects were developed at UC Berkeley.
-# The core projects and autograders were primarily created by John DeNero
-# (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
-# Student side autograding was added by Brad Miller, Nick Hay, and
-# Pieter Abbeel (pabbeel@cs.berkeley.edu).
-
+# 归属信息：Pacman AI 项目由 UC Berkeley 开发。
+# 核心项目和自动评分器主要由 John DeNero (denero@cs.berkeley.edu) 和 Dan Klein (klein@cs.berkeley.edu) 创建。
+# 学生端自动评分由 Brad Miller, Nick Hay 和 Pieter Abbeel (pabbeel@cs.berkeley.edu) 添加。
 
 """
-In search.py, you will implement generic search algorithms which are called by
-Pacman agents (in searchAgents.py).
+在 search.py 中，您将实现通用搜索算法，这些算法由
+Pacman 代理（在 searchAgents.py 中）调用。
 """
 
 import util
 
 class SearchProblem:
     """
-    This class outlines the structure of a search problem, but doesn't implement
-    any of the methods (in object-oriented terminology: an abstract class).
+    该类概述了搜索问题的结构，但不实现任何方法
+    （面向对象术语：抽象类）。
 
-    You do not need to change anything in this class, ever.
+    您不需要修改此类中的任何内容。
     """
 
     def getStartState(self):
         """
-        Returns the start state for the search problem.
+        返回搜索问题的起始状态
         """
         util.raiseNotDefined()
 
     def isGoalState(self, state):
         """
-          state: Search state
+          state: 搜索状态
 
-        Returns True if and only if the state is a valid goal state.
+        如果且仅当状态是有效目标状态时返回 True
         """
         util.raiseNotDefined()
 
     def getSuccessors(self, state):
         """
-          state: Search state
+          state: 搜索状态
 
-        For a given state, this should return a list of triples, (successor,
-        action, stepCost), where 'successor' is a successor to the current
-        state, 'action' is the action required to get there, and 'stepCost' is
-        the incremental cost of expanding to that successor.
+        对于给定状态，这应返回一个三元组列表 (successor,
+        action, stepCost)，其中 'successor' 是当前状态的后继状态，
+        'action' 是达到该状态所需的动作，'stepCost' 是扩展到该
+        后继状态的增量代价。
         """
         util.raiseNotDefined()
 
     def getCostOfActions(self, actions):
         """
-         actions: A list of actions to take
+         actions: 要采取的动作列表
 
-        This method returns the total cost of a particular sequence of actions.
-        The sequence must be composed of legal moves.
+        此方法返回特定动作序列的总成本。
+        动作序列必须由合法移动组成。
         """
         util.raiseNotDefined()
 
 
 def tinyMazeSearch(problem):
     """
-    Returns a sequence of moves that solves tinyMaze.  For any other maze, the
-    sequence of moves will be incorrect, so only use this for tinyMaze.
+    返回解决 tinyMaze 的动作序列。对于其他迷宫，
+    动作序列将不正确，因此仅用于 tinyMaze。
     """
     from game import Directions
     s = Directions.SOUTH
@@ -74,45 +68,45 @@ def tinyMazeSearch(problem):
 
 def depthFirstSearch(problem: SearchProblem):
     """
-    Search the deepest nodes in the search tree first.
+    优先搜索搜索树中最深的节点。
 
-    Your search algorithm needs to return a list of actions that reaches the
-    goal. Make sure to implement a graph search algorithm.
+    您的搜索算法需要返回一个动作列表，以达到目标。
+    确保实现图搜索算法。
 
-    To get started, you might want to try some of these simple commands to
-    understand the search problem that is being passed in:
+    为了入门，您可以尝试以下简单命令来理解传入的搜索问题：
 
     print("Start:", problem.getStartState())
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
+    
     util.raiseNotDefined()
 
 def breadthFirstSearch(problem: SearchProblem):
-    """Search the shallowest nodes in the search tree first."""
+    """优先搜索搜索树中最浅的节点。"""
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
 
 def uniformCostSearch(problem: SearchProblem):
-    """Search the node of least total cost first."""
+    """优先搜索总代价最小的节点。"""
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
     """
-    A heuristic function estimates the cost from the current state to the nearest
-    goal in the provided SearchProblem.  This heuristic is trivial.
+    启发式函数用于估计从当前状态到提供的 SearchProblem 中最近目标的代价。
+    该启发式函数很简单。
     """
     return 0
 
 def aStarSearch(problem: SearchProblem, heuristic=nullHeuristic):
-    """Search the node that has the lowest combined cost and heuristic first."""
+    """优先搜索总代价与启发式估价之和最小的节点。"""
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
 
 
-# Abbreviations
+# 缩写
 bfs = breadthFirstSearch
 dfs = depthFirstSearch
 astar = aStarSearch
