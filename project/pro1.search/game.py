@@ -38,7 +38,7 @@ class Agent:
 
     def getAction(self, state):
         """
-        Agent 会接收一个 GameState（来自 {pacman, capture, sonar}.py）,
+        Agent 会接收一个 GameState(来自 {pacman, capture, sonar}.py),
         并必须返回 Directions.{North, South, East, West, Stop} 中的一个动作.
         """
         raiseNotDefined()
@@ -482,7 +482,7 @@ class GameStateData:
 
     def initialize( self, layout, numGhostAgents ):
         """
-        根据布局数组（参见 layout.py）创建初始游戏状态.
+        根据布局数组(参见 layout.py)创建初始游戏状态.
         """
 
         self.food = layout.food.copy()

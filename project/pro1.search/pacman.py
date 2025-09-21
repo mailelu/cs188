@@ -1,29 +1,29 @@
 # pacman.py
 # ---------
-# 许可信息：你可以自由使用或扩展这些项目用于教育目的，前提是 (1) 你不分发或发布解决方案，(2) 保留此声明，(3) 明确归属加州大学伯克利分校，包括链接 http://ai.berkeley.edu。
+# 许可信息：你可以自由使用或扩展这些项目用于教育目的,前提是 (1) 你不分发或发布解决方案,(2) 保留此声明,(3) 明确归属加州大学伯克利分校,包括链接 http://ai.berkeley.edu.
 # 
-# 归属信息：Pacman AI 项目由加州大学伯克利分校开发。
-# 核心项目和自动评分器主要由 John DeNero (denero@cs.berkeley.edu) 和 Dan Klein (klein@cs.berkeley.edu) 创建。
-# 学生端自动评分由 Brad Miller、Nick Hay 和 Pieter Abbeel (pabbeel@cs.berkeley.edu) 添加。
+# 归属信息：Pacman AI 项目由加州大学伯克利分校开发.
+# 核心项目和自动评分器主要由 John DeNero (denero@cs.berkeley.edu) 和 Dan Klein (klein@cs.berkeley.edu) 创建.
+# 学生端自动评分由 Brad Miller、Nick Hay 和 Pieter Abbeel (pabbeel@cs.berkeley.edu) 添加.
 
 
 """
-Pacman.py 文件包含经典吃豆人游戏的逻辑以及运行游戏的主程序。该文件可分为三个部分：
+Pacman.py 文件包含经典吃豆人游戏的逻辑以及运行游戏的主程序.该文件可分为三个部分：
 
   (i) 吃豆人世界的接口：
-          吃豆人是一个复杂的环境。你可能不想阅读我们为保证游戏正常运行而编写的所有代码。
-          这一部分包含了你需要理解的、用于完成项目的关键代码。此外，game.py 中也有一些你需要了解的内容。
+          吃豆人是一个复杂的环境.你可能不想阅读我们为保证游戏正常运行而编写的所有代码.
+          这一部分包含了你需要理解的、用于完成项目的关键代码.此外,game.py 中也有一些你需要了解的内容.
 
   (ii) 吃豆人的隐藏逻辑：
-          这一部分包含了吃豆人环境中所有的逻辑代码，比如决定谁可以移动、碰撞时谁会死亡等。
-          通常你不需要阅读这部分代码，但如果有兴趣，可以自行研究。
+          这一部分包含了吃豆人环境中所有的逻辑代码,比如决定谁可以移动、碰撞时谁会死亡等.
+          通常你不需要阅读这部分代码,但如果有兴趣,可以自行研究.
 
   (iii) 游戏启动框架：
-          最后一部分包含了读取命令、设置游戏、启动新游戏的代码，以及如何链接所有外部模块（代理函数、图形界面等）。
-          查看这一部分可以了解所有可用选项。
+          最后一部分包含了读取命令、设置游戏、启动新游戏的代码,以及如何链接所有外部模块（代理函数、图形界面等）.
+          查看这一部分可以了解所有可用选项.
 
-要开始你的第一局游戏，在命令行输入 'python pacman.py'。
-移动按键为 'a'、's'、'd'、'w'（或使用方向键）。祝你玩得愉快！
+要开始你的第一局游戏,在命令行输入 'python pacman.py'.
+移动按键为 'a'、's'、'd'、'w'（或使用方向键）.祝你玩得愉快！
 """
 
 from game import GameStateData
@@ -41,21 +41,19 @@ import sys, types, time, random, os
 
 class GameState:
     """
-    一个 GameState 指定完整的游戏状态，包括食物、胶囊、
-    代理配置和分数变化。
+    一个 GameState 指定完整的游戏状态,包括食物、胶囊、代理配置和分数变化.
 
-    GameStates 由 Game 对象使用来捕获游戏的实际状态，
-    并可被代理用来推理游戏情况。
+    GameStates 由 Game 对象使用来捕获游戏的实际状态,并可被代理用来推理游戏情况.
 
-    大部分 GameState 信息存储在 GameStateData 对象中。
-    我们强烈建议通过下面的访问方法访问数据，而不是直接引用 GameStateData 对象。
+    大部分 GameState 信息存储在 GameStateData 对象中.
+    我们强烈建议通过下面的访问方法访问数据,而不是直接引用 GameStateData 对象.
 
-    注意，在经典吃豆人中，Pacman 总是代理 0。
+    注意,在经典吃豆人中,Pacman 总是代理 0.
     """
 
-    ####################################################
+    #####################################
     # 访问方法：使用这些方法来获取状态数据 #
-    ####################################################
+    #####################################
 
     # 静态变量用于跟踪哪些状态已经调用过 getLegalActions
     explored = set()
@@ -82,7 +80,7 @@ class GameState:
         返回指定代理执行动作后的后继状态
         """
         # 检查后继状态是否存在
-        if self.isWin() or self.isLose(): raise Exception('无法生成终结状态的后继状态。')
+        if self.isWin() or self.isLose(): raise Exception('无法生成终结状态的后继状态.')
 
         # 复制当前状态
         state = GameState(self)
@@ -164,9 +162,9 @@ class GameState:
 
     def getFood(self):
         """
-        返回布尔型食物指示变量的 Grid。
+        返回布尔型食物指示变量的 Grid.
 
-        Grid 可通过列表访问，因此要检查 (x,y) 是否有食物，只需调用：
+        Grid 可通过列表访问,因此要检查 (x,y) 是否有食物,只需调用：
         currentFood = state.getFood()
         if currentFood[x][y] == True: ...
         """
@@ -174,9 +172,9 @@ class GameState:
 
     def getWalls(self):
         """
-        返回布尔型墙壁指示变量的 Grid。
+        返回布尔型墙壁指示变量的 Grid.
 
-        Grid 可通过列表访问，因此要检查 (x,y) 是否有墙壁，只需调用：
+        Grid 可通过列表访问,因此要检查 (x,y) 是否有墙壁,只需调用：
         walls = state.getWalls()
         if walls[x][y] == True: ...
         """
@@ -195,8 +193,8 @@ class GameState:
         return self.data._win
 
     #############################################
-    #             辅助方法：                   #
-    # 通常不需要直接调用这些方法              #
+    #             辅助方法：                     #
+    # 通常不需要直接调用这些方法                  #
     #############################################
 
     def __init__( self, prevState = None ):
@@ -246,7 +244,7 @@ TIME_PENALTY = 1 # 每回合损失的分数
 
 class ClassicGameRules:
     """
-    这些游戏规则管理游戏的控制流程，决定游戏何时以及如何开始和结束
+    这些游戏规则管理游戏的控制流程,决定游戏何时以及如何开始和结束
     """
     def __init__(self, timeout=30):
         self.timeout = timeout
@@ -364,7 +362,7 @@ class GhostRules:
     GHOST_SPEED=1.0
     def getLegalActions( state, ghostIndex ):
         """
-        幽灵不能停下，除非到达死胡同才能掉头，
+        幽灵不能停下,除非到达死胡同才能掉头,
         但可以在交叉口转 90 度
         """
         conf = state.getGhostState( ghostIndex ).configuration
@@ -461,7 +459,7 @@ def readCommand( argv ):
                     - 启动交互式游戏
                 (2) python pacman.py --layout smallClassic --zoom 2
                 或  python pacman.py -l smallClassic -z 2
-                    - 在较小的棋盘上启动交互式游戏，并放大显示
+                    - 在较小的棋盘上启动交互式游戏,并放大显示
     """
     parser = OptionParser(usageStr)
 
@@ -491,7 +489,7 @@ def readCommand( argv ):
     parser.add_option('--replay', dest='gameToReplay',
                       help='重放已记录的游戏文件（pickle）', default=None)
     parser.add_option('-a','--agentArgs',dest='agentArgs',
-                      help='发送给代理的逗号分隔值，例如 "opt1=val1,opt2,opt3=val3"')
+                      help='发送给代理的逗号分隔值,例如 "opt1=val1,opt2,opt3=val3"')
     parser.add_option('-x', '--numTraining', dest='numTraining', type='int',
                       help=default('训练回合数（抑制输出）'), default=0)
     parser.add_option('--frameTime', dest='frameTime', type='float',
@@ -582,7 +580,7 @@ def loadAgent(pacman, nographics):
                 if nographics and modulename == 'keyboardAgents.py':
                     raise Exception('使用键盘需要图形界面（不能使用文本显示）')
                 return getattr(module, pacman)
-    raise Exception('代理 ' + pacman + ' 未在任何 *Agents.py 文件中指定。')
+    raise Exception('代理 ' + pacman + ' 未在任何 *Agents.py 文件中指定.')
 
 def replayGame( layout, actions, display ):
     import pacmanAgents, ghostAgents
@@ -648,7 +646,7 @@ if __name__ == '__main__':
 
     > python pacman.py
 
-    查看用法说明了解更多细节。
+    查看用法说明了解更多细节.
 
     > python pacman.py --help
     """

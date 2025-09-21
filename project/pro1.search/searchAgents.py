@@ -168,7 +168,7 @@ class PositionSearchProblem(search.SearchProblem):
 
     def getSuccessors(self, state):
         """
-         返回后继状态、所需动作以及代价 1.
+        返回后继状态、所需动作以及代价 1.
 
         如 search.py 所述：
         对于给定状态,该方法应返回一个三元组列表 (successor, action, stepCost),
