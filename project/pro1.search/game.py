@@ -163,7 +163,6 @@ class Grid:
     def __init__(self, width, height, initialValue=False, bitRepresentation=None):
         if initialValue not in [False, True]: raise Exception('Grids can only contain booleans')
         self.CELLS_PER_INT = 30
-
         self.width = width
         self.height = height
         self.data = [[initialValue for y in range(height)] for x in range(width)]

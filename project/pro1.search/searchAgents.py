@@ -261,7 +261,7 @@ class CornersProblem(search.SearchProblem):
 
     def __init__(self, startingGameState: pacman.GameState):
         """
-        Stores the walls, pacman's starting position and corners.
+        存储墙壁信息、Pacman 的起始位置以及角落的位置。
         """
         self.walls = startingGameState.getWalls()
         self.startingPosition = startingGameState.getPacmanPosition()
@@ -277,15 +277,17 @@ class CornersProblem(search.SearchProblem):
         返回起始状态 (在你的状态空间中, 而不是完整的 Pacman 状态空间)
         """
         "*** YOUR CODE HERE ***"
-
-        util.raiseNotDefined()
+        visited_corner = set()
+        return (self.startingPosition, frozenset(visited_corner))
 
     def isGoalState(self, state: Any):
         """
         返回该搜索状态是否为目标状态
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        if len(state[1]) == 4:
+            return True
+        return False
 
     def getSuccessors(self, state: Any):
         """
@@ -308,6 +310,17 @@ class CornersProblem(search.SearchProblem):
             #   hitsWall = self.walls[nextx][nexty]
 
             "*** YOUR CODE HERE ***"
+            x,y = state[0]
+            dx, dy = Actions.directionToVector(action)
+            nextx, nexty = int(x + dx), int(y + dy)
+            hitsWall = self.walls[nextx][nexty]
+            if not hitsWall:
+                nextState = (nextx, nexty)
+                visited_corner = set(state[1])
+                if nextState in self.corners:
+                    visited_corner.add(nextState)
+                cost = 1
+                successors.append( ( (nextState,frozenset(visited_corner)), action, cost) )
 
         self._expanded += 1 # DO NOT CHANGE
         return successors
@@ -341,7 +354,15 @@ def cornersHeuristic(state: Any, problem: CornersProblem):
     walls = problem.walls # 迷宫的墙信息, Grid 类型 (game.py)
 
     "*** YOUR CODE HERE ***"
-    return 0 # 默认返回 0, 即最简单的解
+    position, visited_Corners = state
+    unvisited = [corner for corner in corners if corner not in visited_Corners]
+
+    if not unvisited:
+        return 0
+
+    # 启发式 = 当前到剩余角落的最大曼哈顿距离
+    distances = [util.manhattanDistance(position, corner) for corner in unvisited]
+    return max(distances)
 
 class AStarCornersAgent(SearchAgent):
     "用于 CornersProblem 的 A* 搜索智能体, 使用 cornersHeuristic"
@@ -354,8 +375,8 @@ class FoodSearchProblem:
     与寻找 Pacman 游戏中所有食物 (dots) 的路径相关的搜索问题.
 
     搜索状态是一个元组 (pacmanPosition, foodGrid)
-      pacmanPosition: 一个元组 (x,y) 表示 Pacman 的位置
-      foodGrid:       一个 Grid (见 game.py), True 表示食物存在, False 表示不存在
+    pacmanPosition: 一个元组 (x,y) 表示 Pacman 的位置
+    foodGrid:       一个 Grid (见 game.py), True 表示食物存在, False 表示不存在
     """
     def __init__(self, startingGameState: pacman.GameState):
         self.start = (startingGameState.getPacmanPosition(), startingGameState.getFood())
@@ -429,10 +450,45 @@ def foodHeuristic(state: Tuple[Tuple, List[List]], problem: FoodSearchProblem):
     之后多次调用该启发式函数时,可以直接访问
     problem.heuristicInfo['wallCount'].
     """
-
+    
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
-    return 0
+    foodList = foodGrid.asList()
+   # 1. 如果没有剩余食物，代价为0
+    if not foodList:
+        return 0
+
+    # 2. 当前位置到最近食物的曼哈顿距离
+    nearestFoodDist = min(
+        abs(position[0] - food[0]) + abs(position[1] - food[1])
+        for food in foodList
+    )
+
+    # 3. 用 Prim 算法近似计算剩余食物的 MST 权重
+    #    思路：逐步从一个食物出发，把最近的未访问食物加入树
+    unvisited = set(foodList)
+    start = next(iter(unvisited))   # 随便选择一个食物作为起点
+    visited = {start}
+    unvisited.remove(start)
+
+    mstCost = 0
+    while unvisited:
+        bestDist = float("inf")
+        bestNode = None
+        # 在 visited 和 unvisited 之间找最短边
+        for u in visited:
+            for v in unvisited:
+                dist = abs(u[0] - v[0]) + abs(u[1] - v[1])
+                if dist < bestDist:
+                    bestDist = dist
+                    bestNode = v
+        # 把最近的点加入 MST
+        mstCost += bestDist
+        visited.add(bestNode)
+        unvisited.remove(bestNode)
+
+    # 4. 返回 启发值 = 最近食物距离 + MST 权重
+    return nearestFoodDist + mstCost
 
 class ClosestDotSearchAgent(SearchAgent):
     "使用一系列搜索找到所有食物的智能体"

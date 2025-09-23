@@ -78,6 +78,9 @@ def depthFirstSearch(problem: SearchProblem):
     print("Start:", problem.getStartState())
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
+    Start: (5, 5)
+    Is the start a goal? False
+    Start's successors: [((5, 4), 'South', 1), ((4, 5), 'West', 1)]
     """
     "*** YOUR CODE HERE ***"
     path = []
@@ -93,18 +96,43 @@ def depthFirstSearch(problem: SearchProblem):
         for success in problem.getSuccessors(frontier_item[0]):  # 入栈可选路径
             if success[0] not in visited:  #如果没有被访问,则加入
                 frontier.push((success[0], frontier_item[1] + [success[1]]))    
-    
 
 def breadthFirstSearch(problem: SearchProblem):
     """优先搜索搜索树中最浅的节点."""
     "*** YOUR CODE HERE ***"
-    
-    util.raiseNotDefined()
+    path = []
+    visited = set()
+    startState  = problem.getStartState()
+    frontier= util.Queue()    #使用队列
+    frontier.push((startState,path))
+    while not frontier.isEmpty():
+        frontier_item = frontier.pop()   #弹栈
+        if frontier_item[0] not in visited:
+            if problem.isGoalState(frontier_item[0]):
+                return frontier_item[1]
+            visited.add(frontier_item[0])  #visited加入弹出的点
+            for success in problem.getSuccessors(frontier_item[0]):  # 入栈可选路径
+                if success[0] not in visited:  #如果没有被访问,则加入
+                    frontier.push((success[0], frontier_item[1] + [success[1]]))    
 
 def uniformCostSearch(problem: SearchProblem):
     """优先搜索总代价最小的节点."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    path = []
+    visited = set()
+    startState  = problem.getStartState()
+    frontier= util.PriorityQueue()    #使用优先队列
+    startCost = 0
+    frontier.push((startState,path,startCost), startCost)
+    while not frontier.isEmpty():
+        frontier_item = frontier.pop()   #弹栈
+        if frontier_item[0] not in visited:
+            if problem.isGoalState(frontier_item[0]):
+                return frontier_item[1]
+            visited.add(frontier_item[0])  #visited加入弹出的点
+            for success in problem.getSuccessors(frontier_item[0]):  # 入栈可选路径
+                if success[0] not in visited:  #如果没有被访问,则加入
+                    frontier.update((success[0], frontier_item[1] + [success[1]],frontier_item[2] + success[2]), frontier_item[2] + success[2])    
 
 def nullHeuristic(state, problem=None):
     """
@@ -116,7 +144,29 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem: SearchProblem, heuristic=nullHeuristic):
     """优先搜索总代价与启发式估价之和最小的节点."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    """
+        state = ( (x,y), visited_corner)
+        frontier = ( state, path, cost)
+        cost =  pre_cost + g(n) + h(n)
+    """
+    path = []
+    visited = set()
+    startState  = problem.getStartState()
+    frontier= util.PriorityQueue()    #使用优先队列
+    startCost = 0 
+    frontier.push((startState,path,startCost), startCost + heuristic(startState, problem))
+    while not frontier.isEmpty():
+        frontier_item = frontier.pop()   #弹栈
+        if frontier_item[0] not in visited:
+            if problem.isGoalState(frontier_item[0]):
+                return frontier_item[1]
+            visited.add(frontier_item[0])  #visited加入弹出的点
+            """
+                success = ( ((x,y),visited_corner) , action cost )
+            """
+            for success in problem.getSuccessors(frontier_item[0]):  # 入栈可选路径
+                if success[0] not in visited:  #如果没有被访问,则加入
+                    frontier.update((success[0], frontier_item[1] + [success[1]],frontier_item[2] + success[2]), frontier_item[2] + success[2] + heuristic(success[0], problem))    
 
 
 # 缩写

@@ -174,9 +174,9 @@ class PriorityQueue:
         return len(self.heap) == 0
 
     def update(self, item, priority):
-        # If item already in priority queue with higher priority, update its priority and rebuild the heap.
-        # If item already in priority queue with equal or lower priority, do nothing.
-        # If item not in priority queue, do the same thing as self.push.
+        # 如果元素已在优先队列中，且其优先级更高，则更新它的优先级并重建堆。
+        # 如果元素已在优先队列中，且其优先级相同或更低，则不做任何操作。
+        # 如果元素不在优先队列中，则执行与 self.push 相同的操作。
         for index, (p, c, i) in enumerate(self.heap):
             if i == item:
                 if p <= priority:
